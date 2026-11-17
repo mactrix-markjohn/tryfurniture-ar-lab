@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f5f1e9">
+  <meta name="description" content="Try room-scale furniture placement on iPhone and Android.">
+  <title>TryFurniture — AR test</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Instrument+Serif&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.183.2/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.183.2/examples/jsm/"}}
+  </script>
+</head>
+<body>
+  <main id="home" class="shell">
+    <header class="top"><strong>TryFurniture</strong><span>AR test</span></header>
+    <section class="intro">
+      <div class="intro-copy">
+        <h1>Try the furniture<br>in your room.</h1>
+        <p>Place a sofa, chair and coffee table at life size. Walk around, move a piece and see what stays in place.</p>
+        <a class="pill primary" href="#tests">Choose an AR test <span aria-hidden="true">↓</span></a>
+      </div>
+      <figure>
+        <img src="./previews/furniture.jpg" width="1120" height="760" alt="The sofa, armchair and coffee table used in the AR tests">
+        <figcaption>Furniture models from Poly Haven</figcaption>
+      </figure>
+    </section>
+    <section id="tests" class="tests" aria-label="AR tests">
+      <article>
+        <p class="device">iPhone · Quick Look</p>
+        <h2>Move individual pieces</h2>
+        <p>Try dragging the chair away from the sofa and table. This package contains three separate models.</p>
+        <a class="pill" rel="ar" href="./models/individual.usdz#allowsContentScaling=0"><img class="ar-placeholder" src="./previews/furniture.jpg" alt="">Open individual pieces</a>
+      </article>
+      <article>
+        <p class="device">iPhone · Quick Look</p>
+        <h2>Place a complete layout</h2>
+        <p>Place all three pieces together as one arrangement. The common parent has no visible geometry.</p>
+        <a class="pill" rel="ar" href="./models/layout.usdz#allowsContentScaling=0"><img class="ar-placeholder" src="./previews/furniture.jpg" alt="">Open the layout</a>
+      </article>
+      <article>
+        <p class="device">iPhone &amp; Android · 8th Wall</p>
+        <h2>Edit through the camera</h2>
+        <p>Add, move, rotate and swap pieces in the real room. Save the arrangement to this browser.</p>
+        <button class="pill primary" data-engine="8thwall" disabled>Start live editor</button>
+      </article>
+      <article>
+        <p id="webxr-device" class="device">Supported Android · WebXR</p>
+        <h2 id="webxr-title">Compare native tracking</h2>
+        <p id="webxr-description">Run the same editor in Android Chrome with ARCore. Compare scale, drift and responsiveness.</p>
+        <button id="webxr-launch" class="pill" data-engine="webxr" disabled>Start WebXR editor</button>
+      </article>
+    </section>
+    <p class="notice" id="notice" role="status">Live AR needs a compatible phone and camera permission.</p>
+    <footer><a href="https://polyhaven.com/license">Model licence</a><a href="./README.md">Test instructions</a></footer>
+  </main>
+  <section id="editor" hidden aria-label="Live furniture editor">
+    <canvas id="camera"></canvas>
+    <div id="overlay">
+      <div id="placement-surface" aria-hidden="true"></div>
+      <header class="editor-header">
+        <div><strong id="engine-name">Live editor</strong><p id="status" role="status"></p></div>
+        <button id="exit" type="button">Exit</button>
+      </header>
+      <section class="controls" aria-label="Furniture placement controls">
+        <div class="control-row">
+          <label>Piece to place
+            <select id="catalogue">
+              <option value="sofa">Fabric sofa</option>
+              <option value="armchair">Modern armchair</option>
+              <option value="table">Coffee table</option>
+              <option value="lounge">Lounge chair</option>
+            </select>
+          </label>
+          <button id="add" type="button" aria-pressed="true">Add</button>
+        </div>
+        <div class="control-row">
+          <label>Placed furniture
+            <select id="placed"><option value="">None</option></select>
+          </label>
+          <button id="move" type="button" aria-pressed="false">Move</button>
+          <button id="swap" type="button">Swap</button>
+        </div>
+        <div class="control-row toolbar">
+          <button id="rotate-left" type="button" aria-label="Rotate left 15 degrees">↶ 15°</button>
+          <button id="rotate-right" type="button" aria-label="Rotate right 15 degrees">↷ 15°</button>
+          <button id="remove" type="button">Remove</button>
+          <button id="save" type="button">Save</button>
+          <button id="restore" type="button">Restore</button>
+        </div>
+      </section>
+    </div>
+  </section>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
