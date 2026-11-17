@@ -33,7 +33,13 @@ with TemporaryDirectory() as tmp:
     directory = Path(tmp)
     (directory / 'individual.usda').write_text(scene)
     for name in items:
-        copyfile(models / f'{name}.usdz', directory / f'{name}.usdz')
+        asset = models / f'{name}.usdz'
+        metadata = subprocess.check_output(['usdcat', '--layerMetadata', str(asset)], text=True)
+        metadata_lines = {line.strip() for line in metadata.splitlines()}
+        # The enclosing stage defines the coordinate system for every referenced model.
+        if not {'upAxis = "Y"', 'metersPerUnit = 1'} <= metadata_lines:
+            raise SystemExit(f'{asset.name} must be exported Y-up with metres as stage units.')
+        copyfile(asset, directory / asset.name)
     subprocess.run(
         ['usdzip', 'individual.usdz', 'individual.usda', *(f'{name}.usdz' for name in items)],
         cwd=directory, check=True,
