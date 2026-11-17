@@ -155,6 +155,14 @@ function loadScript(url, attributes = {}) {
 }
 
 async function start8thWall(run) {
+  // iPhone asks for motion access only during a user gesture, before engine downloads.
+  const motion = window.DeviceOrientationEvent;
+  if (typeof motion?.requestPermission === 'function') {
+    if (await motion.requestPermission() !== 'granted') {
+      throw new Error('Allow motion access in Safari to use floor tracking.');
+    }
+  }
+  if (active !== run) return;
   window.THREE = THREE;
   if (!window.XR8) {
     await loadScript('https://cdn.jsdelivr.net/npm/@8thwall/engine-binary@1.0.0/dist/xr.js',

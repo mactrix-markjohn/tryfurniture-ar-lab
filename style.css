@@ -26,6 +26,7 @@ article p:not(.device){flex:1;margin:12px 0 18px;color:var(--muted);font-size:.9
 .pill{display:inline-flex;gap:13px;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--ink);border-radius:30px;background:transparent;color:var(--ink);font-weight:700;font-size:.89rem;text-decoration:none;text-align:left}
 .pill.primary{background:var(--rust);border-color:var(--rust);color:white}
 .pill:hover:not(:disabled){filter:brightness(.86)}
+a[rel="ar"]::after{content:attr(aria-label)}
 .ar-placeholder{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
 .notice{min-height:2em;margin:14px 0 0}
 footer{display:flex;gap:18px;padding:8px 0 25px}
